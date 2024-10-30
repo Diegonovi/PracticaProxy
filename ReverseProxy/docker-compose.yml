@@ -1,0 +1,40 @@
+services:
+  nginx:
+    image: ubuntu/nginx
+    container_name: nginx_server
+    volumes:
+      - ./nginx/sites-available:/etc/nginx/sites-available
+      - ./nginx/website:/var/www/html/
+    restart: always
+    networks:
+      - webnet
+
+  apache:
+    image: ubuntu/apache2
+    container_name: apache_server
+    volumes:
+      - ./apache/sites-available:/etc/apache2/sites-available
+      - ./apache/website:/var/www/html/
+      - ./apache/htpasswd/.htpasswd:/etc/apache2/.htpasswd
+    restart: always
+    networks:
+      - webnet
+
+  proxy:
+    image: ubuntu/nginx
+    container_name: proxy_server
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./proxy/conf/nginx.conf:/etc/nginx/nginx.conf
+      - ./proxy/certs:/etc/nginx/certs
+    restart: always
+    depends_on:
+      - apache
+      - nginx
+    networks:
+      - webnet
+
+networks:
+  webnet:
