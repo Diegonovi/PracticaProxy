@@ -1,31 +1,8 @@
-server {
-    listen 80;
-    listen [::]:80;
-
-    root /var/www/html/diego.com;
-    index /landingpage/index.html;
-
-    # Configuración para la raíz
-    location / {
-        try_files $uri $uri/ /landingpage/index.html;
-    }
-
-    # Configuración para /one
-    location /nombre {
-        try_files $uri $uri/ /index.html;
-    }
-
-    # Personalizar la página de error 404
-    error_page 404 /error_404.html;
-    location = /error_404.html {
-        root /var/www/html/diego.com;
-        internal;
-    }
-
-    # la página de error 500
-    error_page 500 502 503 504 /error_500.html;
-    location = /error_500.html {
-        root /var/www/html/diego.com;
-        internal;
-    }
-}
+server { listen 80; listen [::]:80; root /var/www/html/diego.com; index
+/landingpage/index.html; # Configuración para la raíz location / { try_files
+$uri $uri/ /landingpage/index.html; } # Configuración para /nombre location
+/nombre { try_files $uri $uri/ /index.html; } # Personalizar la página de error
+404 error_page 404 /error_404.html; location = /error_404.html { root
+/var/www/html/diego.com; internal; } # la página de error 500 error_page 500 502
+503 504 /error_500.html; location = /error_500.html { root
+/var/www/html/diego.com; internal; } }
